@@ -1,9 +1,14 @@
 package boids;
 
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.util.Random;
 
 import edu.wlu.cs.levy.CG.KDTree;
+import edu.wlu.cs.levy.CG.KeyDuplicateException;
+import edu.wlu.cs.levy.CG.KeySizeException;
 
 /**
  * Boids --- class to represent a "flock" of bird-like objects and it's
@@ -17,6 +22,12 @@ class Boids {
 	int N; // number of boids to process
 	int xRes; // maximum x-coordinate of field
 	int yRes; // maximum y-coordinate of field
+ 
+	// Font to draw birds
+	private Font font = new Font(null, Font.PLAIN, 10);
+	
+	private boolean birdsAreDots = false;
+
 
 	/**
 	 * Initialize the array of bird-like objects with random coordinates within
@@ -103,7 +114,30 @@ class Boids {
 		for (int i = 0; i < N - 1; i++) {
 			int x = (int) birds[i].position.data[0];
 			int y = (int) birds[i].position.data[1];
-			g.drawLine(x, y, x, y);
+			if(birdsAreDots) {
+				g.drawLine(x, y, x, y);
+			} else { 
+				// calculate angle from velocity
+				double angle = Math.atan2(birds[i].velocity.data[1], birds[i].velocity.data[0]);
+				// we are drawing a "v" that's pointed to the bottom, so we need to turn by (-90°) -PI/2 to align "V" to the bird velocity
+				angle = angle - Math.PI / 2;
+				drawBirdWithText((Graphics2D) g, x, y, angle, "V");
+			}
 		}
 	}
+	/**
+	 * Allows to draw a bird with a text
+	 * @param g2d
+	 * @param x
+	 * @param y
+	 * @param angle
+	 * @param text
+	 */
+    private void drawBirdWithText(Graphics2D g2d, double x, double y, double angle, String text) {
+        AffineTransform affineTransform = new AffineTransform();
+        affineTransform.rotate(angle, 0, 0);
+        Font rotatedFont = font.deriveFont(affineTransform);
+        g2d.setFont(rotatedFont);
+        g2d.drawString(text, (int) x, (int) y);
+    }
 }

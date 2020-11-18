@@ -114,4 +114,16 @@ public class Vector {
 			s += data[i] + " ";
 		return s;
 	}
+	
+	/**
+	 * Returns true if every data is 0
+	 * @return false if one data is not 0
+	 */
+	public boolean isZero() {
+		for (double d : data) {
+			if (d != 0)
+				return false;
+		}
+		return true;
+	}
 }
