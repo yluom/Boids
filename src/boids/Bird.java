@@ -1,5 +1,4 @@
 package boids;
-import java.util.List;
 
 /**
  * Bird ---   class to represent an bird-like object in 

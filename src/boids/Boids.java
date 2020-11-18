@@ -1,6 +1,7 @@
 package boids;
-import java.util.Random;
 import java.awt.Graphics;
+import java.util.Random;
+
 import edu.wlu.cs.levy.CG.KDTree;
 
 /**
